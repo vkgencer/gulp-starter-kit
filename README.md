@@ -1,6 +1,20 @@
-# gulp-starter-kit
+# Starter Kit
+
 HTML project starter kit with gulp 4.0
 
-Next Features:
- - Handlebars (gulp-compile-handlebars)
- - 
+## Installation
+
+
+```
+npm install
+```
+
+## Usage
+
+```
+gulp
+```
+
+### Todos
+
+ - Include handlebar.js (gulp-compile-handlebars)
