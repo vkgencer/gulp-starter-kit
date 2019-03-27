@@ -1,5 +1,10 @@
 @import "../common/variables";
+@import "../common/mixins";
 
-header {
-	background: $main-text-color;
+.header {
+
+  @include media-breakpoint-down(md) {
+
+  }
+
 }

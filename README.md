@@ -1,2 +1,6 @@
 # gulp-starter-kit
-Project starter kit with gulp 4.0
+HTML project starter kit with gulp 4.0
+
+Next Features:
+ - Handlebars (gulp-compile-handlebars)
+ - 

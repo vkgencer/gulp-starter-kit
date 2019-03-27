@@ -12,16 +12,6 @@ const newer = require("gulp-newer");
 const imagemin = require("gulp-imagemin");
 const uglify = require('gulp-uglify');
 
-const glob = {
-	png: '**/*.png',
-	svg: '**/*.svg',
-	imgs: '**/*.+(jpg|png|gif|jpeg|tiff)',
-	fonts: '**/*.+(ttf|eot|svg|woff|woff2)',
-	sass: '**/*.+(sass|scss)',
-	htmls: '**/*.+(html|nunjucks)',
-	js: '**/*.+(js)'
-};
-
 const paths = {
 	base: './app/src',
 	styles: {
@@ -33,10 +23,10 @@ const paths = {
 		vendor: [],
 		plugins: []
 	},
-	images: './app/src/img/**/*.{JPG,jpg,jpeg,png,gif}',
+	images: './app/src/img/**/*.{JPG,jpg,jpeg,png,gif,svg}',
 	fonts: './app/src/fonts/**/*.+(ttf|eot|svg|woff|woff2)',
 	json: './app/src/json/**/*.json',
-	build: './app/build'
+	dist: './app/dist'
 }
 
 paths.styles.main = [
@@ -57,10 +47,8 @@ paths.scripts.vendor = [
 ]
 
 paths.scripts.plugins = [
-	`${paths.base}/js/plugins/owl.animate.js`,
-	`${paths.base}/js/plugins/owl.autoheight.js`,
-	`${paths.base}/js/plugins/owl.autoplay.js`,
-	`${paths.base}/js/plugins/owl.autorefresh.js`
+	`${paths.base}/js/plugins/util.js`,
+	`${paths.base}/js/plugins/modal.js`
 ]
 
 // BrowserSync
@@ -82,12 +70,12 @@ function browserSyncReload (done) {
 
 // Clean assets
 function clean () {
-	return del([paths.build]);
+	return del([paths.dist]);
 }
 
 // CSS task
 function css () {
-	
+
 	const main = gulp
 		.src(paths.styles.main)
 		.pipe(plumber())
@@ -97,11 +85,11 @@ function css () {
 			cascade: false
 		}))
 		.pipe(concat('main.css'))
-		.pipe(gulp.dest(`${paths.build}/css/`))
+		.pipe(gulp.dest(`${paths.dist}/css/`))
 		.pipe(rename({ suffix: ".min" }))
 		.pipe(cleanCss())
-		.pipe(gulp.dest(`${paths.build}/css/`))
-	
+		.pipe(gulp.dest(`${paths.dist}/css/`))
+
 	const plugins = gulp
 		.src(paths.styles.plugins)
 		.pipe(plumber())
@@ -111,55 +99,55 @@ function css () {
 			cascade: false
 		}))
 		.pipe(concat('plugin.css'))
-		.pipe(gulp.dest(`${paths.build}/css/`))
+		.pipe(gulp.dest(`${paths.dist}/css/`))
 		.pipe(rename({ suffix: ".min" }))
 		.pipe(cleanCss())
-		.pipe(gulp.dest(`${paths.build}/css/`))
-	
+		.pipe(gulp.dest(`${paths.dist}/css/`))
+
 	return merge(main, plugins)
 }
 
 // Script task
 function scripts () {
-	
+
 	const main = gulp.src(paths.scripts.main)
 		.pipe(plumber())
 		.pipe(concat('main.js'))
-		.pipe(gulp.dest(`${paths.build}/js/`))
+		.pipe(gulp.dest(`${paths.dist}/js/`))
 		.pipe(uglify())
 		.pipe(rename({ suffix: ".min" }))
-		.pipe(gulp.dest(`${paths.build}/js/`))
+		.pipe(gulp.dest(`${paths.dist}/js/`))
 		.pipe(browsersync.stream());
-	
+
 	const vendor = gulp.src(paths.scripts.vendor)
 		.pipe(plumber())
 		.pipe(uglify())
 		.pipe(concat('vendor.js'))
 		.pipe(rename({ suffix: ".min" }))
-		.pipe(gulp.dest(`${paths.build}/js/vendor/`))
+		.pipe(gulp.dest(`${paths.dist}/js/vendor/`))
 		.pipe(browsersync.stream());
-	
+
 	const plugins = gulp.src(paths.scripts.plugins)
 		.pipe(plumber())
 		.pipe(concat('plugins.js'))
-		.pipe(gulp.dest(`${paths.build}/js/plugins`))
+		.pipe(gulp.dest(`${paths.dist}/js/plugins`))
 		.pipe(uglify())
 		.pipe(rename({ suffix: ".min" }))
-		.pipe(gulp.dest(`${paths.build}/js/plugins/`))
+		.pipe(gulp.dest(`${paths.dist}/js/plugins/`))
 		.pipe(browsersync.stream());
-	
+
 	return merge(main, vendor, plugins)
-	
+
 }
 
 // IMG task
 function images () {
 	return gulp
 		.src(paths.images)
-		.pipe(newer(`${paths.build}/img/`))
+		.pipe(newer(`${paths.dist}/img/`))
 		.pipe(
 			imagemin([
-				imagemin.gifsicle({ interlaced: true }),
+				// imagemin.gifsicle({ interlaced: true }),
 				imagemin.jpegtran({ progressive: true }),
 				imagemin.optipng({ optimizationLevel: 5 }),
 				imagemin.svgo({
@@ -172,23 +160,23 @@ function images () {
 				})
 			])
 		)
-		.pipe(gulp.dest(`${paths.build}/img/`))
+		.pipe(gulp.dest(`${paths.dist}/img/`))
 }
 
 // Fonts task
 function fonts () {
 	return gulp
 		.src(paths.fonts)
-		.pipe(newer(`${paths.build}/fonts/`))
-		.pipe(gulp.dest(`${paths.build}/fonts/`));
+		.pipe(newer(`${paths.dist}/fonts/`))
+		.pipe(gulp.dest(`${paths.dist}/fonts/`));
 }
 
 // Json task
 function json () {
 	return gulp
 		.src(paths.json)
-		.pipe(newer(`${paths.build}/json/`))
-		.pipe(gulp.dest(`${paths.build}/json/`));
+		.pipe(newer(`${paths.dist}/json/`))
+		.pipe(gulp.dest(`${paths.dist}/json/`));
 }
 
 // Watch files
@@ -210,7 +198,7 @@ gulp.task("json", json);
 
 // build
 gulp.task(
-	"build",
+	"dist",
 	gulp.series(clean, gulp.parallel(css))
 );
 

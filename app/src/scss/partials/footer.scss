@@ -1,3 +1,10 @@
-footer {
-	background:#333;
+@import "../common/variables";
+@import "../common/mixins";
+
+.footer {
+
+  @include media-breakpoint-down(md) {
+
+  }
+
 }

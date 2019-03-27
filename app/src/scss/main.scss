@@ -1,10 +1,14 @@
+// Common
+@import "bootstrap/bootstrap";
 @import "./common/variables";
 @import "./common/mixins";
+@import "./common/defaults";
+@import "./common/utils";
+@import "./common/fonts";
+
+// Partials
 @import "partials/header";
 @import "partials/footer";
 
-body {
-  background: $main-text-color;
-  font-family: Arial;
-  color: $main-color;
-}
+// Pages
+@import "pages/homepage";

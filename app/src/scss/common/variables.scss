@@ -1,2 +1,32 @@
-$main-color: #24bc42;
-$main-text-color: #303030;
+$primary: #333333;
+$secondary: #C00000;
+$grey: #73736f;
+$darkgrey: #26262a;
+$darkgrey-hover: #35353a;
+$red: #9e231f;
+$light-red: #e53d3d;
+
+
+.ico-font-family {
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*
+
+Use:
+    a {
+      &::after {
+        @extend .ico-font-family;
+        content: "\e904";
+        font-size: 14px;
+      }
+    }
+*/
