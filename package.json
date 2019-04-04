@@ -27,5 +27,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/vkgencer/gulp-starter-kit.git"
+  },
+  "dependencies": {
+    "gulp-htmlmin": "^5.0.1"
   }
 }
