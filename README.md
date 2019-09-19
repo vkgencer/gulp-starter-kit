@@ -6,6 +6,7 @@ HTML project starter kit with gulp 4.0
 
 
 ```
+npm install -g gulp-cli
 npm install
 ```
 
@@ -14,7 +15,3 @@ npm install
 ```
 gulp
 ```
-
-### Todos
-
- - Include handlebar.js (gulp-compile-handlebars)
